@@ -1,6 +1,6 @@
 # irslackd
 
-[Slack ended IRC support][0] on May 15, 2018. So, we built our own Slack-IRC
+[Slack ended IRC support][0] on May 15, 2018. So, [they][6] built their own Slack-IRC
 gateway.
 
 irslackd is actively developed and used daily on a 1000+ user Slack workspace.
@@ -14,6 +14,7 @@ irslackd is actively developed and used daily on a 1000+ user Slack workspace.
 * Channels, private channels, DMs, group DMs, threads
 * Receive reactions, message edits, message deletes, attachments
 * Proper en/decoding of @user, #channel, @team tags
+* Dockerfile install for easier isolation 
 
 ### Setup
 
@@ -24,19 +25,27 @@ irslackd is actively developed and used daily on a 1000+ user Slack workspace.
     ```
     $ git clone https://github.com/adsr/irslackd.git
     $ cd irslackd
-    $ npm install    # Fetch dependencies into local `node_modules/` directory
+    $ npm install    # Fetch dependencies into local `node_modules/` directory 
+                     # packages.json was updated with current eslint as npm install was
+                     # failing without specifying production
     ```
 
 3. Run `./bin/create_tls_key.sh` to create a TLS key and cert. This will put
-   a private key and cert in `~/.irslackd`. Note the fingerprint.
+   a private key and cert in `./.irslackd`. Note the fingerprint.
+   This is an automated install for Docker only. The `./bin/create_tls_key.sh` file has
+   been altered to include default params for the keygen. Check it for details. Also, note
+   default program inserts key/cert in home directory `${HOME}/.irslackd`, this has been 
+   altered accordingly as well.
 
 4. Run irslackd:
     ```
     $ ./irslackd
     ```
 
-    By default irslackd listens on `127.0.0.1:6697`. Set the command line
-    options `-p <port>` and/or `-a <address>` to change the listen address.
+    By default irslackd listens on `127.0.0.1:6697`. This version has been changed
+    to listen global on `0.0.0.0:6697` so docker expose will work. Set the command line
+    options `-p <port>` and/or `-a <address>` to change the listen address. Also, parameters
+    are hardcoded in irslackd file.
 
 5. Follow the link below to obtain an irslackd token for your Slack workspace:
 
@@ -92,3 +101,4 @@ irslackd is actively developed and used daily on a 1000+ user Slack workspace.
 [3]: https://github.com/adsr/irslackd/issues
 [4]: https://join.slack.com/t/irslackd/shared_invite/enQtNDUzMTgzNzAyNDUxLWVhMzgwMTYyYzczN2Y0ZmIyYmEyZDgwZDk2MTdiZmVjZTJhM2FkMjgzOTEyMmNiNGY2YzU2MzgxZGExYWY3ZDA
 [5]: https://github.com/adsr/irslackd/wiki/IRC-Client-Config
+[6]: https://github.com/adsr/irslackd
