@@ -3,7 +3,8 @@ set -e
 
 die() { echo "$@" >&2; exit 1; }
 
-dir="${HOME}/.irslackd"
+
+dir="./.irslackd"
 
 while getopts ":d:" opt; do
   case $opt in
@@ -14,6 +15,6 @@ done
 
 mkdir -p $dir || die "Failed to create directory $dir"
 set -x
-openssl req -newkey rsa:4096 -nodes -sha512 -x509 -days 3650 -nodes -out $dir/cert.pem -keyout $dir/pkey.pem
+openssl req -newkey rsa:4096 -nodes -sha512 -x509 -days 3650 -nodes -out $dir/cert.pem -keyout $dir/pkey.pem -subj "/C=US/ST=California/L=Mountain View/O=My Org/OU=IT Department/CN=ircbridge.ircslackd.io"
 fingerprint=$(openssl x509 -noout -fingerprint -sha512 -inform pem -in $dir/cert.pem | cut -d= -f2-)
 echo -e "\nFingerprint: $(echo $fingerprint | tr -d ':')"

@@ -5,10 +5,10 @@ const os = require('os');
 const fs = require('fs');
 const irslackd = require('../lib/irslackd.js');
 
-const DEFAULT_HOST = '127.0.0.1';
+const DEFAULT_HOST = '0.0.0.0';
 const DEFAULT_PORT = 6697;
-const DEFAULT_TLS_PKEY = os.homedir() + '/.irslackd/pkey.pem';
-const DEFAULT_TLS_CERT = os.homedir() + '/.irslackd/cert.pem';
+const DEFAULT_TLS_PKEY = './.irslackd/pkey.pem';
+const DEFAULT_TLS_CERT = './.irslackd/cert.pem';
 const DEFAULT_RTM_CLIENT_LOG_LEVEL = 'info';
 
 const opt = require('node-getopt').create([
